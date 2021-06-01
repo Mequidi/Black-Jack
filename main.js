@@ -29,7 +29,8 @@ function randomCardSelector()
 {
     let randomNumber=Math.floor((Math.random()*13));
     deck = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"]
-    return deck[randomNumber];
+    selectedCard = deck[randomNumber];
+    return selectedCard;
 }
 function cardValueGenerator(x){
     if(Number.isInteger(x))
@@ -50,13 +51,13 @@ function startGame()
         isBlackJack = false;
         let firstCard = {
             actualCard :randomCardSelector(),
-            cardValue :cardValueGenerator(this.actualCard),
+            cardValue :cardValueGenerator(selectedCard),
             cardSuit :randomSuitSelector()
         };
-        console.log(firstCard)
+        console.log(firstCard);
         let secondCard = {
             actualCard :randomCardSelector(),
-            cardValue :cardValueGenerator(this.actualCard),
+            cardValue :cardValueGenerator(selectedCard),
             cardSuit :randomSuitSelector()
         }
         cards = [firstCard,secondCard];
@@ -75,10 +76,10 @@ function renderGame()
     cardsEl.textContent = "Cards :";
     sumEl.textContent = "Sum :"
     playerEl.textContent = player.name + " $" + player.chips;
-
+    console.log(cards)
     for(let i = 0 ; i < cards.length ; i++)
     {
-        cardsEl.textContent += cards[i.cardSuit] + cards[i.actualCard] + " ";
+        cardsEl.textContent += cards[i].cardSuit + cards[i].actualCard + " ";
     }
     sumEl.textContent += sum;
     
@@ -109,7 +110,7 @@ function newCard()
     {
         let thirdCard = {
             actualCard :randomCardSelector(),
-            cardValue :cardValueGenerator(this.actualCard),
+            cardValue :cardValueGenerator(selectedCard),
             cardSuit :randomSuitSelector()
         };
         cards.push(thirdCard);
