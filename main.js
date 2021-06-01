@@ -3,10 +3,12 @@ let player = {
     chips : "150"
 }
 
-isblackjack = false
+isBlackJack = false
 isAlive = false;
 isPlaying = false;
-cards = []
+cards = [];
+deck = [];
+suit = [];
 message = "";
 errorMessage = "";
 
@@ -15,15 +17,31 @@ let cardsEl = document.getElementById("cards-el");
 let sumEl = document.getElementById("sum-el");
 let errorEl = document.getElementById("error-el");
 let playerEl = document.getElementById("player-el");
+let testEl = document.getElementById("test-el");
 
-function randomCard()
+function randomSuitSelector()
 {
-    let randomNumber=Math.floor((Math.random()*13)+1);
-    if(randomNumber === 1)
-        randomNumber = 11;
-    else if(randomNumber >10)
-        randomNumber = 10;
-    return randomNumber;
+    let suits = ["♤","♡","♧","♢"];
+    let randomSuitIndex = Math.floor((Math.random()*4));
+    return suits[randomSuitIndex];
+}
+function randomCardSelector()
+{
+    let randomNumber=Math.floor((Math.random()*13));
+    deck = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"]
+    // if(randomNumber === 1)
+    //     randomNumber = 11;
+    // else if(randomNumber > 10)
+    //     randomNumber = 10;
+    return deck[randomNumber];
+}
+function cardValueGenerator(x){
+    if(Number.isInteger(x))
+        return x;
+    else if(x === "A")
+        return 11;
+    else if(x === "J" || x === "Q" || x === "K")
+        return 10;
 }
 
 function startGame()
@@ -33,10 +51,22 @@ function startGame()
     {
         isAlive = true;
         isPlaying = true;
-        let firstCard = randomCard();
-        let secondCard = randomCard();
+        isBlackJack = false;
+        // let firstCard = cardInfo;
+        // let secondCard = cardInfo;
+        let firstCard = {
+            actualCard :randomCardSelector(),
+            cardValue :cardValueGenerator(this.actualCard),
+            cardSuit :randomSuitSelector()
+        };
+        console.log(firstCard)
+        let secondCard = {
+            actualCard :randomCardSelector(),
+            cardValue :cardValueGenerator(this.actualCard),
+            cardSuit :randomSuitSelector()
+        }
         cards = [firstCard,secondCard];
-        sum = firstCard + secondCard;
+        sum = firstCard.cardValue + secondCard.cardValue;
         renderGame();   
     }
     else    
@@ -65,7 +95,7 @@ function renderGame()
     else {if(sum===21)
     {
         message = "You got blackjack, you won!";
-        isblackjack = true;
+        isBlackJack = true;
         isPlaying = false;
     }
     else 
@@ -81,11 +111,15 @@ function renderGame()
 function newCard()
 {
     errorEl.textContent = "";
-    if(!isblackjack && isAlive)
+    if(isBlackJack === false && isAlive)
     {
-        let thirdCard = randomCard();
+        let thirdCard = {
+            actualCard :randomCardSelector(),
+            cardValue :cardValueGenerator(this.actualCard),
+            cardSuit :randomSuitSelector()
+        };
         cards.push(thirdCard);
-        sum += thirdCard;
+        sum += thirdCard.cardValue;
         renderGame();
     }
     else
