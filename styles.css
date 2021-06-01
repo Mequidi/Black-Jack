@@ -34,3 +34,8 @@ button{
     border-radius: 2px;
     cursor: pointer;
 }
+
+#error-el{
+    color: red;
+}
+
