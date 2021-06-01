@@ -29,10 +29,6 @@ function randomCardSelector()
 {
     let randomNumber=Math.floor((Math.random()*13));
     deck = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"]
-    // if(randomNumber === 1)
-    //     randomNumber = 11;
-    // else if(randomNumber > 10)
-    //     randomNumber = 10;
     return deck[randomNumber];
 }
 function cardValueGenerator(x){
@@ -52,8 +48,6 @@ function startGame()
         isAlive = true;
         isPlaying = true;
         isBlackJack = false;
-        // let firstCard = cardInfo;
-        // let secondCard = cardInfo;
         let firstCard = {
             actualCard :randomCardSelector(),
             cardValue :cardValueGenerator(this.actualCard),
@@ -84,7 +78,7 @@ function renderGame()
 
     for(let i = 0 ; i < cards.length ; i++)
     {
-        cardsEl.textContent += cards[i] + " ";
+        cardsEl.textContent += cards[i.cardSuit] + cards[i.actualCard] + " ";
     }
     sumEl.textContent += sum;
     
